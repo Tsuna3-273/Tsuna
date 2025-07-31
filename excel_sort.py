@@ -16,7 +16,15 @@ def main():
     df = pd.read_excel(args.input)
     if args.column not in df.columns:
         sys.exit(f"Column '{args.column}' not found in the spreadsheet")
-    df_sorted = df.sort_values(by=args.column)
+    if args.column == df.columns[0]:
+        sys.exit("Sorting by the first column is not allowed because the first column must remain unchanged")
+
+    first_col = df.columns[0]
+    first_data = df[first_col]
+
+    other_cols = df.columns[1:]
+    df_other = df[other_cols].sort_values(by=args.column).reset_index(drop=True)
+    df_sorted = pd.concat([first_data, df_other], axis=1)
 
     if args.output:
         df_sorted.to_excel(args.output, index=False)
