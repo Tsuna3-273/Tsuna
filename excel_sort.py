@@ -28,15 +28,9 @@ def main():
             "Sorting by the first column is not allowed because the first column must remain unchanged"
         )
 
-    # Save the first column separately so it stays in its original order
-    first_col = df_original[first_col_name]
-    df_to_sort = df_original.drop(columns=first_col_name)
-
-    # Sort remaining columns by the chosen column
-    df_sorted = df_to_sort.sort_values(by=args.column).reset_index(drop=True)
-
-    # Reattach the untouched first column
-    df_sorted.insert(0, first_col_name, first_col.values)
+    # Sort entire rows based on the chosen column. The first column moves with
+    # its row but is not used as a sort key.
+    df_sorted = df_original.sort_values(by=args.column).reset_index(drop=True)
 
     if args.output:
         df_sorted.to_excel(args.output, index=False)
