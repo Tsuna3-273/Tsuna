@@ -21,6 +21,8 @@ python excel_sort.py path/to/file.xlsx --column COLUMN_NAME --output sorted.xlsx
 ```
 
 The script sorts data by `COLUMN_NAME` while leaving the first column unchanged.
-Sorting by the first column is not supported. If `--output` is omitted, the
-sorted data will be printed to the console.
+Sorting by the first column is not supported. If an output file is provided,
+cells in columns other than the first that change position after sorting are
+highlighted in yellow–green. If `--output` is omitted, the sorted data will be
+printed to the console.
 

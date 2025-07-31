@@ -8,6 +8,13 @@ except ImportError:
         "pandas library is required. Please install pandas and openpyxl before running this script."
     )
 
+try:
+    from openpyxl.styles import PatternFill
+except ImportError:
+    sys.exit(
+        "openpyxl library is required. Please install pandas and openpyxl before running this script."
+    )
+
 
 def main() -> None:
     """Read an Excel file and sort it by a chosen column while keeping the first column untouched."""
@@ -23,6 +30,7 @@ def main() -> None:
     args = parser.parse_args()
 
     df = pd.read_excel(args.input)
+    df_original = df.copy()
     if args.column not in df.columns:
         sys.exit(f"Column '{args.column}' not found in the spreadsheet")
     if args.column == df.columns[0]:
@@ -38,7 +46,14 @@ def main() -> None:
     df_sorted = pd.concat([first_data, df_other], axis=1)
 
     if args.output:
-        df_sorted.to_excel(args.output, index=False)
+        with pd.ExcelWriter(args.output, engine="openpyxl") as writer:
+            df_sorted.to_excel(writer, index=False)
+            sheet = writer.sheets["Sheet1"]
+            highlight = PatternFill(start_color="CCFF99", end_color="CCFF99", fill_type="solid")
+            for r in range(df_sorted.shape[0]):
+                for c_idx, col in enumerate(df_sorted.columns[1:], start=2):
+                    if df_sorted.iloc[r][col] != df_original.iloc[r][col]:
+                        sheet.cell(row=r + 2, column=c_idx).fill = highlight
         print(f"Sorted data saved to {args.output}")
     else:
         print(df_sorted)
