@@ -36,11 +36,11 @@ view the results in a list below. Each time you press **検索**, new results ar
 appended to the list so previous searches remain visible until you clear them.
 Use the **クリアー** button to remove all output. The input boxes and results
 area grow or shrink when the window is resized. Subdirectories are searched
-automatically and any matching lines are displayed with their file path and line
-number. The searched directory is shown once at the top of the output and each
-matching line is listed underneath with a small indent. Text files are opened in
-UTF‑8 with decoding errors ignored, allowing files containing multi-byte
-characters to be processed.
+automatically and matching results are grouped by file. The searched directory
+is shown once at the top, then each file name appears indented on its own line
+with its matching lines listed beneath it at a deeper indent. Only the matched
+line text is shown. Text files are opened in UTF‑8 with decoding errors ignored,
+allowing files containing multi-byte characters to be processed.
 
 ```bash
 python grep_network.py

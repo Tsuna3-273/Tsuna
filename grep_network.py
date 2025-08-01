@@ -59,9 +59,15 @@ def perform_search(
         output.insert(tk.END, "    該当する行は見つかりませんでした。\n")
         return
 
-    for path, lineno, text in results:
+    grouped: dict[str, list[str]] = {}
+    for path, _lineno, text in results:
         rel = os.path.relpath(path, directory)
-        output.insert(tk.END, f"    {rel}:{lineno}: {text}\n")
+        grouped.setdefault(rel, []).append(text)
+
+    for rel, lines in grouped.items():
+        output.insert(tk.END, f"    {rel}\n")
+        for line in lines:
+            output.insert(tk.END, f"        {line}\n")
 
 
 def clear_results(output: scrolledtext.ScrolledText) -> None:
