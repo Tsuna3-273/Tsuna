@@ -1,5 +1,7 @@
 import os
 import re
+import tkinter as tk
+from tkinter import filedialog, messagebox, scrolledtext
 
 
 def search_directory(directory: str, pattern: str) -> list[tuple[str, int, str]]:
@@ -24,23 +26,71 @@ def search_directory(directory: str, pattern: str) -> list[tuple[str, int, str]]
     return matches
 
 
-def main() -> None:
-    directory = input("検索するディレクトリを入力してください: ").strip()
-    pattern = input("検索する文字列(正規表現)を入力してください: ").strip()
+def browse_directory(var: tk.StringVar) -> None:
+    """Open a directory chooser and set ``var`` to the selected path."""
 
+    path = filedialog.askdirectory()
+    if path:
+        var.set(path)
+
+
+def perform_search(dir_var: tk.StringVar, pattern_var: tk.StringVar, output: scrolledtext.ScrolledText) -> None:
+    """Run the search and display results in ``output``."""
+
+    directory = dir_var.get()
+    pattern = pattern_var.get()
+
+    if not directory:
+        messagebox.showerror("エラー", "検索するディレクトリを指定してください")
+        return
     if not os.path.isdir(directory):
-        print(f"Directory not found: {directory}")
+        messagebox.showerror("エラー", f"Directory not found: {directory}")
         return
 
+    output.delete("1.0", tk.END)
     results = search_directory(directory, pattern)
 
     if not results:
-        print("該当する行は見つかりませんでした。")
+        output.insert(tk.END, "該当する行は見つかりませんでした。")
         return
 
-    print("\n=== 検索結果 ===")
     for path, lineno, text in results:
-        print(f"{path}:{lineno}: {text}")
+        output.insert(tk.END, f"{path}:{lineno}: {text}\n")
+
+
+def main() -> None:
+    root = tk.Tk()
+    root.title("Network Grep")
+
+    dir_var = tk.StringVar()
+    pattern_var = tk.StringVar()
+
+    frame = tk.Frame(root, padx=10, pady=10)
+    frame.pack(fill=tk.BOTH, expand=True)
+
+    tk.Label(frame, text="検索するディレクトリ:").grid(row=0, column=0, sticky=tk.W)
+    dir_entry = tk.Entry(frame, textvariable=dir_var, width=40)
+    dir_entry.grid(row=0, column=1, sticky=tk.W)
+    tk.Button(frame, text="参照", command=lambda: browse_directory(dir_var)).grid(row=0, column=2, padx=5)
+
+    tk.Label(frame, text="検索文字列:").grid(row=1, column=0, pady=5, sticky=tk.W)
+    pattern_entry = tk.Entry(frame, textvariable=pattern_var, width=40)
+    pattern_entry.grid(row=1, column=1, sticky=tk.W)
+
+    search_btn = tk.Button(
+        frame,
+        text="検索",
+        command=lambda: perform_search(dir_var, pattern_var, results_box),
+    )
+    search_btn.grid(row=1, column=2, padx=5)
+
+    results_box = scrolledtext.ScrolledText(frame, width=80, height=20)
+    results_box.grid(row=2, column=0, columnspan=3, pady=10)
+
+    exit_btn = tk.Button(frame, text="終了", command=root.destroy)
+    exit_btn.grid(row=3, column=2, sticky=tk.E)
+
+    root.mainloop()
 
 
 if __name__ == "__main__":
