@@ -37,9 +37,10 @@ appended to the list so previous searches remain visible until you clear them.
 Use the **クリアー** button to remove all output. The input boxes and results
 area grow or shrink when the window is resized. Subdirectories are searched
 automatically and matching results are grouped by file. The searched directory
-is shown once at the top, then each file name appears indented on its own line
-with its matching lines listed beneath it at a deeper indent. Only the matched
-line text is shown. Text files are opened in UTF‑8 with decoding errors ignored,
+is shown once at the top, then each file name appears on a line beginning with
+`検索ファイル:` and the matching lines are indented underneath. Special
+characters like `[` are automatically escaped so they can be searched without
+using a backslash. Text files are opened in UTF‑8 with decoding errors ignored,
 allowing files containing multi-byte characters to be processed.
 
 ```bash

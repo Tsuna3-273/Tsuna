@@ -8,7 +8,10 @@ def search_directory(directory: str, pattern: str) -> list[tuple[str, int, str]]
     """Return a list of tuples ``(file_path, line_number, line_text)`` for lines
     matching ``pattern`` in ``directory`` and all subdirectories."""
 
-    regex = re.compile(pattern)
+    try:
+        regex = re.compile(pattern)
+    except re.error:
+        regex = re.compile(re.escape(pattern))
     matches: list[tuple[str, int, str]] = []
 
     for root, _, files in os.walk(directory):
@@ -65,7 +68,7 @@ def perform_search(
         grouped.setdefault(rel, []).append(text)
 
     for rel, lines in grouped.items():
-        output.insert(tk.END, f"    {rel}\n")
+        output.insert(tk.END, f"    検索ファイル: {rel}\n")
         for line in lines:
             output.insert(tk.END, f"        {line}\n")
 
