@@ -7,7 +7,9 @@ import sys
 def grep_text_files(directory: str, pattern: str, output: str) -> None:
     """Write searched file names and matching lines to ``output``.
 
-    Matched lines are prefixed with ``"=== matched ==="``.
+    Matched lines are prefixed with ``"=== matched ==="``. Files are read as
+    UTF-8 and decoding errors are ignored so that text containing multi-byte
+    characters does not stop the search.
     """
     regex = re.compile(pattern)
     try:
@@ -24,7 +26,7 @@ def grep_text_files(directory: str, pattern: str, output: str) -> None:
                             continue
                         out_fh.write(f"{path}\n")
                         try:
-                            with open(path, "r", encoding="utf-8") as fh:
+                            with open(path, "r", encoding="utf-8", errors="ignore") as fh:
                                 for line in fh:
                                     if regex.search(line):
                                         out_fh.write("=== matched === " + line)
