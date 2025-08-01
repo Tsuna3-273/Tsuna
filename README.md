@@ -26,3 +26,17 @@ cells in columns other than the first that change position after sorting are
 highlighted in yellow–green. If `--output` is omitted, the sorted data will be
 printed to the console.
 
+## Grep network directory
+
+The repository also includes a small utility to search for matching lines in
+text files under a directory (for example, on a network share). Each searched
+file name is written to the output, and matching lines are prefixed with
+`=== matched ===`. The script ignores the output file when searching. Results
+are written to a file, which defaults to `grep_out.txt` but can be changed with
+`--output`.
+
+```bash
+python grep_network.py DIRECTORY PATTERN --output results.txt
+```
+
+
