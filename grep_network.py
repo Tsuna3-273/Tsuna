@@ -43,7 +43,7 @@ def grep_text_files(
                                     if regex.search(line):
                                         out_fh.write("=== matched === " + line)
                                         if html_lines is not None:
-                                            html_lines.append("=== matched === " + line.rstrip("\n"))
+                                            html_lines.append("=== found === " + line.rstrip("\n"))
                         except FileNotFoundError:
                             print(f"File not found: {path}", file=sys.stderr)
                         except OSError as exc:
