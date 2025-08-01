@@ -3,8 +3,12 @@ import os
 import re
 import sys
 
+
 def grep_text_files(directory: str, pattern: str, output: str) -> None:
-    """Write matching lines from all .txt files under ``directory`` to ``output``."""
+    """Write searched file names and matching lines to ``output``.
+
+    Matched lines are prefixed with ``"=== matched ==="``.
+    """
     regex = re.compile(pattern)
     try:
         with open(output, "w", encoding="utf-8") as out_fh:
@@ -12,16 +16,18 @@ def grep_text_files(directory: str, pattern: str, output: str) -> None:
                 for filename in files:
                     if filename.lower().endswith(".txt"):
                         path = os.path.join(root, filename)
-
                         # Skip the output file if it appears in the walk
-                        if os.path.abspath(path) == os.path.abspath(output):
+                        if (
+                            os.path.abspath(path) == os.path.abspath(output)
+                            or filename.lower() == "grep_out.txt"
+                        ):
                             continue
-
+                        out_fh.write(f"{path}\n")
                         try:
                             with open(path, "r", encoding="utf-8") as fh:
                                 for line in fh:
                                     if regex.search(line):
-                                        out_fh.write(line)
+                                        out_fh.write("=== matched === " + line)
                         except FileNotFoundError:
                             print(f"File not found: {path}", file=sys.stderr)
                         except OSError as exc:
@@ -41,7 +47,6 @@ def main() -> None:
         default="grep_out.txt",
         help="File to write matching lines (default: grep_out.txt)",
     )
-
     args = parser.parse_args()
 
     if not os.path.isdir(args.directory):

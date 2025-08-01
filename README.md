@@ -30,10 +30,11 @@ printed to the console.
 
 The repository also includes a small utility to search for matching lines in
 
-text files under a directory (for example, on a network share). The script
-ignores the output file when searching. Results are written to a file, which
-defaults to `grep_out.txt`.
-
+text files under a directory (for example, on a network share). Each searched
+file name is written to the output, and matching lines are prefixed with
+`=== matched ===`. The script ignores the output file when searching. Results
+are written to a file, which defaults to `grep_out.txt` but can be changed with
+`--output`.
 
 ```bash
 python grep_network.py DIRECTORY PATTERN --output results.txt
