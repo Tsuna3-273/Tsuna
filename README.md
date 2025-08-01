@@ -35,10 +35,11 @@ file name is written to the output, and matching lines are prefixed with
 are written to a file, which defaults to `grep_out.txt` but can be changed with
 `--output`. Text files are opened in UTF‑8 with decoding errors ignored so
 multi-byte characters are supported. The output file is encoded as Shift‑JIS
-so it can be viewed with tools expecting that encoding.
+so it can be viewed with tools expecting that encoding. Use `--html` to
+generate an additional HTML report that opens in your default browser.
 
 ```bash
-python grep_network.py DIRECTORY PATTERN --output results.txt
+python grep_network.py DIRECTORY PATTERN --output results.txt --html results.html
 ```
 
 
