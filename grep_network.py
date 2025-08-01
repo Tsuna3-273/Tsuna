@@ -13,7 +13,10 @@ def grep_text_files(directory: str, pattern: str, output: str) -> None:
     """
     regex = re.compile(pattern)
     try:
-        with open(output, "w", encoding="utf-8") as out_fh:
+        # Write the results in Shift-JIS encoding. Characters that cannot be
+        # represented are replaced so the script never fails when encountering
+        # unexpected text.
+        with open(output, "w", encoding="shift_jis", errors="replace") as out_fh:
             for root, _, files in os.walk(directory):
                 for filename in files:
                     if filename.lower().endswith(".txt"):
