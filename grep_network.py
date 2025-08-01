@@ -13,7 +13,7 @@ def grep_text_files(
 
     If ``html_output`` is provided, a simple HTML report is also generated so the
     results can be viewed in a browser. Matched lines are prefixed with
-    ``"=== matched ==="``. Files are read as UTF-8 and decoding errors are
+    ``"=== found ==="``. Files are read as UTF-8 and decoding errors are
     ignored so that text containing multi-byte characters does not stop the
     search.
     """
@@ -41,7 +41,7 @@ def grep_text_files(
                             with open(path, "r", encoding="utf-8", errors="ignore") as fh:
                                 for line in fh:
                                     if regex.search(line):
-                                        out_fh.write("=== matched === " + line)
+                                        out_fh.write("=== found === " + line)
                                         if html_lines is not None:
                                             html_lines.append("=== found === " + line.rstrip("\n"))
                         except FileNotFoundError:
