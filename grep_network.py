@@ -3,7 +3,6 @@ import os
 import re
 import sys
 
-
 def grep_text_files(directory: str, pattern: str, output: str) -> None:
     """Write matching lines from all .txt files under ``directory`` to ``output``."""
     regex = re.compile(pattern)
@@ -13,6 +12,11 @@ def grep_text_files(directory: str, pattern: str, output: str) -> None:
                 for filename in files:
                     if filename.lower().endswith(".txt"):
                         path = os.path.join(root, filename)
+
+                        # Skip the output file if it appears in the walk
+                        if os.path.abspath(path) == os.path.abspath(output):
+                            continue
+
                         try:
                             with open(path, "r", encoding="utf-8") as fh:
                                 for line in fh:
@@ -24,8 +28,6 @@ def grep_text_files(directory: str, pattern: str, output: str) -> None:
                             print(f"Error reading {path}: {exc}", file=sys.stderr)
     except OSError as exc:
         sys.exit(f"Cannot write to {output}: {exc}")
-
-
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -47,8 +49,6 @@ def main() -> None:
 
     grep_text_files(args.directory, args.pattern, args.output)
     print(f"Wrote matching lines to {args.output}")
-
-
 
 if __name__ == "__main__":
     main()
