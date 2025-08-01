@@ -34,8 +34,12 @@ def browse_directory(var: tk.StringVar) -> None:
         var.set(path)
 
 
-def perform_search(dir_var: tk.StringVar, pattern_var: tk.StringVar, output: scrolledtext.ScrolledText) -> None:
-    """Run the search and display results in ``output``."""
+def perform_search(
+    dir_var: tk.StringVar,
+    pattern_var: tk.StringVar,
+    output: scrolledtext.ScrolledText,
+) -> None:
+    """Run the search and append results to ``output``."""
 
     directory = dir_var.get()
     pattern = pattern_var.get()
@@ -47,15 +51,20 @@ def perform_search(dir_var: tk.StringVar, pattern_var: tk.StringVar, output: scr
         messagebox.showerror("エラー", f"Directory not found: {directory}")
         return
 
-    output.delete("1.0", tk.END)
     results = search_directory(directory, pattern)
 
     if not results:
-        output.insert(tk.END, "該当する行は見つかりませんでした。")
+        output.insert(tk.END, "該当する行は見つかりませんでした。\n")
         return
 
     for path, lineno, text in results:
         output.insert(tk.END, f"{path}:{lineno}: {text}\n")
+
+
+def clear_results(output: scrolledtext.ScrolledText) -> None:
+    """Remove all text from ``output``."""
+
+    output.delete("1.0", tk.END)
 
 
 def main() -> None:
@@ -90,6 +99,9 @@ def main() -> None:
 
     results_box = scrolledtext.ScrolledText(frame)
     results_box.grid(row=2, column=0, columnspan=3, pady=10, sticky="nsew")
+
+    clear_btn = tk.Button(frame, text="クリアー", command=lambda: clear_results(results_box))
+    clear_btn.grid(row=3, column=1, sticky=tk.W)
 
     exit_btn = tk.Button(frame, text="終了", command=root.destroy)
     exit_btn.grid(row=3, column=2, sticky=tk.E)
