@@ -37,7 +37,6 @@ def grep_text_files(directory: str, pattern: str, output: str) -> None:
     except OSError as exc:
         sys.exit(f"Cannot write to {output}: {exc}")
 
-
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Search for lines matching PATTERN in text files under a network directory"
@@ -57,7 +56,6 @@ def main() -> None:
 
     grep_text_files(args.directory, args.pattern, args.output)
     print(f"Wrote matching lines to {args.output}")
-
 
 if __name__ == "__main__":
     main()
