@@ -53,12 +53,15 @@ def perform_search(
 
     results = search_directory(directory, pattern)
 
+    output.insert(tk.END, f"検索ディレクトリ: {directory}\n")
+
     if not results:
-        output.insert(tk.END, "該当する行は見つかりませんでした。\n")
+        output.insert(tk.END, "    該当する行は見つかりませんでした。\n")
         return
 
     for path, lineno, text in results:
-        output.insert(tk.END, f"{path}:{lineno}: {text}\n")
+        rel = os.path.relpath(path, directory)
+        output.insert(tk.END, f"    {rel}:{lineno}: {text}\n")
 
 
 def clear_results(output: scrolledtext.ScrolledText) -> None:

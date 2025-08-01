@@ -37,8 +37,10 @@ appended to the list so previous searches remain visible until you clear them.
 Use the **クリアー** button to remove all output. The input boxes and results
 area grow or shrink when the window is resized. Subdirectories are searched
 automatically and any matching lines are displayed with their file path and line
-number. Text files are opened in UTF‑8 with decoding errors ignored, allowing
-files containing multi-byte characters to be processed.
+number. The searched directory is shown once at the top of the output and each
+matching line is listed underneath with a small indent. Text files are opened in
+UTF‑8 with decoding errors ignored, allowing files containing multi-byte
+characters to be processed.
 
 ```bash
 python grep_network.py
