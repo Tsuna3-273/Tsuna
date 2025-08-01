@@ -32,7 +32,8 @@ The repository also includes a small utility to search through all `.txt` files
 in a directory (for example, on a network share). Running `python
 grep_network.py` launches a simple GUI where you can select the directory to
 search via a folder selection dialog, enter the search string in an edit box and
-view the results in a list below. Subdirectories are searched automatically and
+view the results in a list below. The input boxes and results area grow or
+shrink when the window is resized. Subdirectories are searched automatically and
 any matching lines are displayed with their file path and line number. Text
 files are opened in UTF‑8 with decoding errors ignored, allowing files
 containing multi-byte characters to be processed.

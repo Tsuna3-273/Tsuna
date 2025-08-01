@@ -68,14 +68,18 @@ def main() -> None:
     frame = tk.Frame(root, padx=10, pady=10)
     frame.pack(fill=tk.BOTH, expand=True)
 
+    # Make widgets expand when the window is resized
+    frame.columnconfigure(1, weight=1)
+    frame.rowconfigure(2, weight=1)
+
     tk.Label(frame, text="検索するディレクトリ:").grid(row=0, column=0, sticky=tk.W)
-    dir_entry = tk.Entry(frame, textvariable=dir_var, width=40)
-    dir_entry.grid(row=0, column=1, sticky=tk.W)
+    dir_entry = tk.Entry(frame, textvariable=dir_var)
+    dir_entry.grid(row=0, column=1, sticky="ew")
     tk.Button(frame, text="参照", command=lambda: browse_directory(dir_var)).grid(row=0, column=2, padx=5)
 
     tk.Label(frame, text="検索文字列:").grid(row=1, column=0, pady=5, sticky=tk.W)
-    pattern_entry = tk.Entry(frame, textvariable=pattern_var, width=40)
-    pattern_entry.grid(row=1, column=1, sticky=tk.W)
+    pattern_entry = tk.Entry(frame, textvariable=pattern_var)
+    pattern_entry.grid(row=1, column=1, sticky="ew")
 
     search_btn = tk.Button(
         frame,
@@ -84,8 +88,8 @@ def main() -> None:
     )
     search_btn.grid(row=1, column=2, padx=5)
 
-    results_box = scrolledtext.ScrolledText(frame, width=80, height=20)
-    results_box.grid(row=2, column=0, columnspan=3, pady=10)
+    results_box = scrolledtext.ScrolledText(frame)
+    results_box.grid(row=2, column=0, columnspan=3, pady=10, sticky="nsew")
 
     exit_btn = tk.Button(frame, text="終了", command=root.destroy)
     exit_btn.grid(row=3, column=2, sticky=tk.E)
