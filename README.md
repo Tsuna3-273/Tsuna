@@ -48,3 +48,25 @@ python grep_network.py
 ```
 
 
+
+## Web App: Automation & Search Assistant
+
+This repository now includes a simple Streamlit web application that combines the Excel/CSV automation assistant with an optional document search and summarization tool.
+
+### Installation
+
+Install the web app dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Running
+
+Launch the app with:
+
+```bash
+streamlit run app.py
+```
+
+Set the `OPENAI_API_KEY` environment variable before running. The Excel/CSV tab accepts a file upload and a natural language instruction, generates Python code with the OpenAI API, executes it, and displays the result. The Document Search tab lets you upload plain text files, search them using embeddings, and view an AI-generated summary of the best match.
