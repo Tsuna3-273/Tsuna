@@ -69,4 +69,4 @@ Launch the app with:
 streamlit run app.py
 ```
 
-Set the `OPENAI_API_KEY` environment variable before running. The Excel/CSV tab accepts a file upload and a natural language instruction, generates Python code with the OpenAI API, executes it, and displays the result. The Document Search tab lets you upload plain text files, search them using embeddings, and view an AI-generated summary of the best match.
+Set the `OPENAI_API_KEY` environment variable before running. The Excel/CSV tab accepts a Shift-JIS–encoded CSV or Excel upload and a natural language instruction, generates Python code with the OpenAI API, executes it, and displays the result. The Document Search tab lets you upload Shift-JIS text files, search them using embeddings, and view an AI-generated summary of the best match.

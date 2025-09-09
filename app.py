@@ -22,7 +22,7 @@ with excel_tab:
     if st.button("Run", key="excel_run") and uploaded_file and instruction:
         # Load DataFrame
         if uploaded_file.name.endswith(".csv"):
-            df = pd.read_csv(uploaded_file)
+            df = pd.read_csv(uploaded_file, encoding="shift_jis")
         else:
             df = pd.read_excel(uploaded_file)
 
@@ -55,7 +55,7 @@ with doc_tab:
     uploaded_docs = st.file_uploader("Upload text files", type=["txt"], accept_multiple_files=True)
     if uploaded_docs:
         for f in uploaded_docs:
-            text = f.read().decode("utf-8", errors="ignore")
+            text = f.read().decode("shift_jis", errors="ignore")
             emb = openai.Embedding.create(input=text, model="text-embedding-3-small")
             docs.append({"name": f.name, "text": text, "embedding": np.array(emb["data"][0]["embedding"])})
         st.success(f"Loaded {len(docs)} documents.")
